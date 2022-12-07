@@ -10,13 +10,13 @@
 
 class Points 
 {
-	std::vector<Base*> Points;
+	std::vector<Base*> v;
 public:
+	
 	void print_points();
 	void remove_point();
-	void create_point_int();
-	void create_point_float();
-	void create_point_double();
+	void app_end_point(Base *point);
+	Points() {};
 };
 
 template<typename T>
@@ -40,10 +40,6 @@ template<typename T>
 Point3Dh <T> create_point_3Dh()
 {
 	T x, y, z, h;
-	
-	//char letter;
-	//std::cout << "Enter Letter: ";
-	//std::cin >> letter;
 	std::cout << "Enter X: ";
 	x = set_value<T>();
 	std::cout << "Enter Y: ";
@@ -52,7 +48,7 @@ Point3Dh <T> create_point_3Dh()
 	z = set_value<T>();
 	std::cout << "Enter H: ";
 	h = set_value<T>();
-	Point3Dh<T> newpoint = Point3Dh<T>(x, y, z, h);
+	Point3Dh <T> newpoint(x, y, z, h);
 	return newpoint;
 }
 
@@ -61,7 +57,7 @@ Point3Dh <T> create_point_3Dh()
 
 void Points::print_points()
 {
-	if (Points.size() == 0)
+	if (v.size() == 0)
 	{
 		system("cls");
 		std::cout << "List is empty!\n\nPress Enter to Continue\n";
@@ -70,10 +66,11 @@ void Points::print_points()
 	}
 	else
 	{
-		for (size_t i = 0; i < Points.size(); i++)
+		//std::cout << v.size() <<"\n";
+		for (size_t i = 0; i < v.size(); i++)
 		{
 			std::cout << i << ") ";
-			Points[i]->show();
+			v[i]->show();
 		}
 		_getch();
 	}
@@ -82,35 +79,24 @@ void Points::print_points()
 void Points::remove_point()
 {
 	std::cout << "Choose point which you want to remove: \n";
-	for (size_t i = 0; i < Points.size(); i++)
+	for (size_t i = 0; i < v.size(); i++)
 	{
 		std::cout << i << ") ";
-		Points[i]->show();
+		v[i]->show();
 	}
-	if (Points.size() == 0)
+	if (v.size() == 0)
 		return;
 	int n = set_value<int>();
 	//system("cls");
-	auto iter = Points.cbegin();
-	Points.erase(iter + n);
+	auto iter = v.cbegin();
+	v.erase(iter + n);
 }
 
-void Points::create_point_int()
-{
-	Point3Dh <int> newPoint = create_point_3Dh<int>();
-	Points.push_back(&newPoint);
-}
 
-void Points::create_point_float()
-{
-	Point3Dh <float> newPoint = create_point_3Dh<float>();
-	Points.push_back(&newPoint);
-}
 
-void Points::create_point_double()
+void Points::app_end_point(Base* point)
 {
-	Point3Dh <double> newPoint = create_point_3Dh<double>();
-	Points.push_back(&newPoint);
+	v.push_back(point);
 }
 
 int menu() {
@@ -129,6 +115,9 @@ int menu() {
 	return cmd;
 };
 
+
+
+
 int main()
 {
 	Points Points;
@@ -136,31 +125,33 @@ int main()
 	{
 		int cmd = menu();
 		bool exit = false;
-		switch (cmd) {
-		case 0:
-			exit = true;
-			break;
-		case 1:
+		if (cmd == 1)
+		{
 			system("cls");
-			Points.create_point_int();
-			break;
-		case 2:
+			Point3Dh <int> newPoint = create_point_3Dh<int>();
+			Points.app_end_point(&newPoint);
+		}
+		else if (cmd == 2)
+		{
 			system("cls");
-			Points.create_point_double();
-			break;
-		case 3:
+			Point3Dh <double> newPoint = create_point_3Dh<double>();
+			Points.app_end_point(&newPoint);
+		}
+		else if (cmd == 3)
+		{
 			system("cls");
-			Points.create_point_float();
-			break;
-		case 4:
+			Point3Dh <float> newPoint = create_point_3Dh<float>();
+			Points.app_end_point(&newPoint);
+		}
+		else if (cmd == 4)
+		{
 			system("cls");
 			Points.print_points();
-			break;
-		case 5:
+		}
+		else if (cmd == 5)
+		{
 			system("cls");
 			Points.remove_point();
-			break;
-		};
-		if (exit == true) break;
+		}
 	}
 }
