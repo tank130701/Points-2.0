@@ -16,7 +16,6 @@ public:
 	void print_points();
 	void remove_point();
 	void app_end_point(Base *point);
-	Points() {};
 };
 
 template<typename T>
@@ -124,7 +123,6 @@ int main()
 	while (true)
 	{
 		int cmd = menu();
-		bool exit = false;
 		if (cmd == 1)
 		{
 			system("cls");
@@ -152,6 +150,10 @@ int main()
 		{
 			system("cls");
 			Points.remove_point();
+		}
+		else if (cmd == 0)
+		{
+			break;
 		}
 	}
 }
